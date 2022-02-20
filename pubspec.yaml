@@ -36,6 +36,10 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  percent_indicator: ^4.0.0
+  transparent_image: ^2.0.0
+  intl: ^0.17.0
+  http: ^0.13.4
   flutter_test:
     sdk: flutter
 
