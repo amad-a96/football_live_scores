@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:football_live_scores/screens/Results_and_Fixtures_Screen.dart';
 import 'package:football_live_scores/screens/standings_screen.dart';
+import 'package:football_live_scores/theme/football_live-Scores_theme.dart';
+
 
 void main() {
-  // ApiManager().test();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
   //ScoresApi a = ScoresApi();
+  final theme = FootballScoresTheme.light();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,9 +23,7 @@ class MyApp extends StatelessWidget {
         '/MyScreen': (context) => StandingsScreen(),
       },
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: theme,
     );
   }
 }
@@ -55,28 +55,20 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt_rounded),
-              label: 'Todos',
-              backgroundColor: Colors.red,
+              icon: Icon(Icons.timer),
+              label: 'Scores',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.my_library_books_outlined),
-              label: 'Backlog',
-              backgroundColor: Colors.green,
+              icon: Icon(Icons.format_list_numbered_outlined),
+              label: 'Standings',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.change_circle),
-              label: 'Doing',
-              backgroundColor: Colors.purple,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.done),
-              label: 'Done',
-              backgroundColor: Colors.pink,
-            ),
+            /* BottomNavigationBarItem(
+              icon: Icon(Icons.blur_circular_sharp),
+              label: 'Top Scores',
+            ),*/
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber,
+          selectedItemColor: Color.fromARGB(255, 39, 36, 63),
           onTap: _onItemTapped
           /*(index) {
           switch (index) {
