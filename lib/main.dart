@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football_live_scores/screens/Results_and_Fixtures_Screen.dart';
 import 'package:football_live_scores/screens/standings_screen.dart';
-import 'package:football_live_scores/theme/football_live-Scores_theme.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -11,7 +9,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   //ScoresApi a = ScoresApi();
-  final theme = FootballScoresTheme.light();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,7 +21,6 @@ class MyApp extends StatelessWidget {
         '/MyScreen': (context) => StandingsScreen(),
       },
       title: 'Flutter Demo',
-      theme: theme,
     );
   }
 }
