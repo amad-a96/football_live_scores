@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:football_live_scores/models/Leagues_Info.dart';
+import 'package:football_live_scores/models/Matches_Info.dart';
 
 import 'package:football_live_scores/services/football_Api_Manager.dart';
 import 'package:football_live_scores/widgets/result%20_and_fixture_card.dart';
@@ -29,15 +29,15 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
   int nextWeekcount = 1;
   int previouseWeekcount = 1;
   List<DateTime> currentWeek = Week.current().days;
-  Stream<LeaguesInfo>? _matchs;
+  Stream<MatchesInfo>? _matchs;
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
   //print(_competitions);
   @override
   void initState() {
-    super.initState();
     _matchs = FootballApiManager().getResultsandFixtures(currentWeek, leagueId);
+    super.initState();
   }
 
   @override
@@ -57,8 +57,6 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
             backgroundColor: Color.fromARGB(255, 39, 36, 63),
           ),
           backgroundColor: Color.fromARGB(255, 242, 241, 243),
-
-
           body: Column(
             children: [
               Container(
@@ -95,7 +93,7 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
                     ]),
               ),
               Expanded(
-                child: StreamBuilder<LeaguesInfo>(
+                child: StreamBuilder<MatchesInfo>(
                   stream: _matchs,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -144,18 +142,18 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
                                             const EdgeInsets.only(top: 28.0),
                                         child: Text(
                                           // short MonthName
-                                          DateFormat.MMMEd().format(snapshot
+                                          DateFormat.MMMMEEEEd().format(snapshot
                                               .data!.matches![0].matchDate!),
                                           style: const TextStyle(
                                               color: Color.fromARGB(
-                                                  255, 66, 117, 113),
-                                              fontSize: 16,
+                                                  143, 72, 66, 117),
+                                              fontSize: 18,
                                               fontWeight: FontWeight.w700),
                                         ),
                                       )
                                     : Container(),
                                 ResultandFixtureCard(
-                                  leaguesInfo: snapshot.data!,
+                                  matchesInfo: snapshot.data!,
                                   index: index,
                                 ),
                               ],
@@ -173,4 +171,3 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
     );
   }
 }
-

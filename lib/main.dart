@@ -64,8 +64,12 @@ class _MainScreenState extends State<MainScreen> {
               label: 'Top Scores',
             ),*/
           ],
+          elevation: 3,
+          unselectedItemColor: Colors.white54,
+          showUnselectedLabels: false,
+          backgroundColor: Color.fromARGB(255, 39, 36, 63),
           currentIndex: _selectedIndex,
-          selectedItemColor: Color.fromARGB(255, 39, 36, 63),
+          selectedItemColor: Colors.white,
           onTap: _onItemTapped
           /*(index) {
           switch (index) {

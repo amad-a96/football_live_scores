@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:football_live_scores/models/Leagues_Info.dart';
+import 'package:football_live_scores/models/Matches_Info.dart';
 import 'package:football_live_scores/screens/Lineup_Statistics_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ResultandFixtureCard extends StatefulWidget {
-  ResultandFixtureCard({Key? key, this.leaguesInfo, this.index})
+  ResultandFixtureCard({Key? key, this.matchesInfo, this.index})
       : super(key: key);
-  LeaguesInfo? leaguesInfo;
+  MatchesInfo? matchesInfo;
   int? index;
 
   @override
@@ -20,10 +20,10 @@ class _ResultandFixtureCardState extends State<ResultandFixtureCard> {
   int count = 0;
   @override
   Widget build(BuildContext context) {
-    var league = widget.leaguesInfo!.matches![widget.index!];
+    var league = widget.matchesInfo!.matches![widget.index!];
     var date =
-        widget.leaguesInfo!.matches![widget.index!].matchDate!.toString();
-    var newdate = widget.leaguesInfo!
+        widget.matchesInfo!.matches![widget.index!].matchDate!.toString();
+    var newdate = widget.matchesInfo!
         .matches![widget.index! - 1 == -1 ? 0 : widget.index! - 1].matchDate!
         .toString();
     if (date == newdate) {
@@ -38,12 +38,12 @@ class _ResultandFixtureCardState extends State<ResultandFixtureCard> {
         children: [
           dateshow
               ? Padding(
-                  padding: const EdgeInsets.only(top: 28.0),
+                  padding: const EdgeInsets.only(top: 28.0, bottom: 5),
                   child: Text(
                     DateFormat.MMMMEEEEd().format(league.matchDate!),
                     style: const TextStyle(
-                        color: Color.fromARGB(255, 66, 117, 113),
-                        fontSize: 16,
+                        color: Color.fromARGB(143, 72, 66, 117),
+                        fontSize: 18,
                         fontWeight: FontWeight.w700),
                   ),
                 )
@@ -61,7 +61,7 @@ class _ResultandFixtureCardState extends State<ResultandFixtureCard> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => LineupStatisticScreen(
-                        leaguesInfo: widget.leaguesInfo,
+                        matchesInfo: widget.matchesInfo,
                         index: widget.index,
                       ),
                     ),
@@ -77,41 +77,25 @@ class _ResultandFixtureCardState extends State<ResultandFixtureCard> {
                           children: [
                             Expanded(
                               flex: 2,
-                              child: AspectRatio(
-                                aspectRatio: 1,
-                                child: CachedNetworkImage(
-                                  fit: BoxFit.fill,
-                                  imageUrl: league.teamHomeBadge!,
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                ),
-                                /*FadeInImage.memoryNetwork(
-                                  imageErrorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    // Appropriate logging or analytics, e.g.
-                                    // myAnalytics.recordError(
-                                    //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
-                                    //   exception,
-                                    //   stackTrace,
-                                    // );
-                                    return const Text('Loading...');
-                                  },
-                                  image: league.teamHomeBadge!,
-                                  placeholder: kTransparentImage,
-                                  fit: BoxFit.fill,
-                                ),*/
+                              child: CachedNetworkImage(
+                                fit: BoxFit.fill,
+                                imageUrl: league.teamHomeBadge!,
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                             ),
                             Expanded(
-                              child: Text(
-                                league.matchHometeamName!,
-                                style: const TextStyle(
-                                    color: Color.fromARGB(255, 72, 66, 117),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
+                              child: Card(
+                                elevation: 0,
+                                child: Text(
+                                  league.matchHometeamName!,
+                                  style: const TextStyle(
+                                      color: Color.fromARGB(255, 72, 66, 117),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700),
+                                ),
                               ),
                             ),
                           ],
@@ -169,40 +153,27 @@ class _ResultandFixtureCardState extends State<ResultandFixtureCard> {
                           children: [
                             Expanded(
                               flex: 2,
-                              child: AspectRatio(
-                                aspectRatio: 1,
-                                child: CachedNetworkImage(
-                                  fit: BoxFit.fill,
-                                  imageUrl: league.teamAwayBadge!,
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                ),
-                                /* FadeInImage.memoryNetwork(
-                                  imageErrorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    // Appropriate logging or analytics, e.g.
-                                    // myAnalytics.recordError(
-                                    //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
-                                    //   exception,
-                                    //   stackTrace,
-                                    // );
-                                    return const Text('Loading...');
-                                  },
-                                  image: league.teamAwayBadge!,
-                                  placeholder: kTransparentImage,
-                                  fit: BoxFit.fill,
-                                ),*/
+                              child: CachedNetworkImage(
+                                fit: BoxFit.fill,
+                                imageUrl: league.teamAwayBadge!,
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                             ),
                             Expanded(
-                              child: Text(league.matchAwayteamName!,
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 72, 66, 117),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700)),
+                              child: Card(
+                                elevation: 0,
+                                child: Center(
+                                  child: Text(league.matchAwayteamName!,
+                                      style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 72, 66, 117),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700)),
+                                ),
+                              ),
                             ),
                           ],
                         ),

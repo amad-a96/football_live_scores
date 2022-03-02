@@ -75,61 +75,6 @@ class _StandingsScreenState extends State<StandingsScreen> {
                       )
                     ]),
               ),
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.all(6.0),
-                      child: Text('P',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(6.0),
-                      child: Text('W',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(6.0),
-                      child: Text('D',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(6.0),
-                      child: Text('L',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ),
-                    Text('Gf',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        )),
-                    Text(":",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        )),
-                    Text('Ga',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        )),
-                    Padding(
-                      padding: EdgeInsets.all(6.0),
-                      child: Text('PTS',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ),
-                  ],
-                ),
-              ),
               Expanded(
                 child: StreamBuilder<StandingsInfo>(
                   stream: _stadings,
