@@ -138,7 +138,6 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
                                         padding:
                                             const EdgeInsets.only(top: 28.0),
                                         child: Text(
-                                          // short MonthName
                                           DateFormat.MMMMEEEEd().format(snapshot
                                               .data!.matches![0].matchDate!),
                                           style: const TextStyle(
@@ -210,7 +209,7 @@ class LeagueSearchDelegate extends SearchDelegate {
             }
           }
           return ListView.builder(
-              itemCount: matchQuery.length ?? 0,
+              itemCount: matchQuery.length,
               itemBuilder: (context, index) {
                 return Leaguecard(
                   league: matchQuery[index],
@@ -241,7 +240,7 @@ class LeagueSearchDelegate extends SearchDelegate {
             }
           }
           return ListView.builder(
-              itemCount: matchQuery.length ?? 0,
+              itemCount: matchQuery.length,
               itemBuilder: (context, index) {
                 return Leaguecard(
                   league: matchQuery[index],

@@ -27,7 +27,7 @@ class _ResultandFixtureCardState extends State<ResultandFixtureCard> {
         .matches![widget.index! - 1 == -1 ? 0 : widget.index! - 1].matchDate!
         .toString();
     if (date == newdate) {
-      dateshow = false;
+      dateshow = !dateshow;
     } else {
       newdate = date;
     }
