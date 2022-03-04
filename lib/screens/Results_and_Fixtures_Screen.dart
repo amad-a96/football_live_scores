@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:football_live_scores/models/Leagues_info.dart';
 
 import 'package:football_live_scores/models/Matches_Info.dart';
 
@@ -6,7 +7,11 @@ import 'package:football_live_scores/services/football_Api_Manager.dart';
 import 'package:football_live_scores/widgets/result%20_and_fixture_card.dart';
 import 'package:intl/intl.dart';
 import 'package:isoweek/isoweek.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../provider/Topbar_navigation_provider.dart';
+import '../widgets/league_card.dart';
 
 class ResultsandFixturesScreen extends StatefulWidget {
   ResultsandFixturesScreen({Key? key}) : super(key: key);
@@ -17,14 +22,6 @@ class ResultsandFixturesScreen extends StatefulWidget {
 }
 
 class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
-  List leagues = [
-    '152', //#152: Premier League
-    '302', //#302: La Liga
-    '207', //#207: Serie A
-    '175', //#175: Bundesliga
-
-    '168', //#168: Ligue 1
-  ];
   String leagueId = '152';
   int nextWeekcount = 1;
   int previouseWeekcount = 1;
@@ -33,21 +30,36 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
-  //print(_competitions);
+
   @override
   void initState() {
-    _matchs = FootballApiManager().getResultsandFixtures(currentWeek, leagueId);
+    //  Provider.of<TopBar>(context, listen: false).loadFromPreferences();
+    setState(() {
+      _matchs =
+          FootballApiManager().getResultsandFixtures(currentWeek, leagueId);
+    });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: leagues.length,
+      length: Provider.of<TopBar>(context).listofLeagues.length,
       child: Scaffold(
           appBar: AppBar(
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    showSearch(
+                        context: context, delegate: LeagueSearchDelegate());
+                  },
+                  icon: Icon(
+                    Icons.search,
+                  )),
+            ],
             centerTitle: true,
-            title: Text('Football Scores',
+            title: const Text('Football Scores',
                 style: TextStyle(
                   color: Colors.white,
                 )),
@@ -63,34 +75,21 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
                 color: Color.fromARGB(255, 39, 36, 63),
                 height: 80,
                 child: TabBar(
+                    isScrollable: true,
                     indicatorWeight: 3,
                     indicatorColor: Colors.amber,
                     labelColor: Color.fromARGB(255, 39, 36, 63),
                     onTap: (value) {
                       print(value);
-                      leagueId = leagues[value];
-                      _matchs = FootballApiManager()
-                          .getResultsandFixtures(currentWeek, leagueId);
-                      setState(() {});
+                      leagueId = Provider.of<TopBar>(context, listen: false)
+                          .listofLeagues[value];
+
+                      setState(() {
+                        _matchs = FootballApiManager()
+                            .getResultsandFixtures(currentWeek, leagueId);
+                      });
                     },
-                    tabs: [
-                      Container(
-                          color: Colors.white,
-                          child: Tab(
-                              child: Image.asset('images/Premier League.png'))),
-                      Tab(
-                        child: Image.asset('images/laLiga.png'),
-                      ),
-                      Tab(
-                        child: Image.asset('images/serieA.png'),
-                      ),
-                      Tab(
-                        child: Image.asset('images/bundesliga.png'),
-                      ),
-                      Tab(
-                        child: Image.asset('images/ligue1.png'),
-                      )
-                    ]),
+                    tabs: Provider.of<TopBar>(context).listofWidgets),
               ),
               Expanded(
                 child: StreamBuilder<MatchesInfo>(
@@ -109,11 +108,10 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
                               .getResultsandFixtures(futureWeek.days, leagueId);
                           previouseWeekcount++;
                           nextWeekcount--;
-                          await Future.delayed(Duration(milliseconds: 3000))
+                          setState(() {});
+                          await Future.delayed(Duration(milliseconds: 1000))
                               .then((value) =>
                                   refreshController.refreshCompleted());
-
-                          setState(() {});
                         },
                         onLoading: () async {
                           Week currentWeek = Week.current();
@@ -123,11 +121,10 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
                               .getResultsandFixtures(futureWeek.days, leagueId);
                           nextWeekcount++;
                           previouseWeekcount--;
-                          await Future.delayed(Duration(milliseconds: 3000))
+                          setState(() {});
+                          await Future.delayed(Duration(milliseconds: 1000))
                               .then(
                                   (value) => refreshController.loadComplete());
-
-                          setState(() {});
                         },
                         child: ListView.builder(
                           // controller: _scrollController,
@@ -168,6 +165,92 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
               ),
             ],
           )),
+    );
+  }
+}
+
+class LeagueSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<League> matchQuery = [];
+
+    return FutureBuilder<LeaguesInfo>(
+      future: FootballApiManager().getLeague(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          for (var item in snapshot.data!.leagues!) {
+            if (item.leagueName!.toLowerCase().contains(query.toLowerCase())) {
+              if (!Provider.of<TopBar>(context)
+                  .listofLeagues
+                  .contains(item.leagueId!)) {
+                matchQuery.add(item);
+              }
+            }
+          }
+          return ListView.builder(
+              itemCount: matchQuery.length ?? 0,
+              itemBuilder: (context, index) {
+                return Leaguecard(
+                  league: matchQuery[index],
+                );
+              });
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<League> matchQuery = [];
+
+    return FutureBuilder<LeaguesInfo>(
+      future: FootballApiManager().getLeague(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          for (var item in snapshot.data!.leagues!) {
+            if (item.leagueName!.toLowerCase().contains(query.toLowerCase())) {
+              if (!Provider.of<TopBar>(context)
+                  .listofLeagues
+                  .contains(item.leagueId!)) {
+                matchQuery.add(item);
+              }
+            }
+          }
+          return ListView.builder(
+              itemCount: matchQuery.length ?? 0,
+              itemBuilder: (context, index) {
+                return Leaguecard(
+                  league: matchQuery[index],
+                );
+              });
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
     );
   }
 }

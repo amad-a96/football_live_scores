@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:football_live_scores/screens/Results_and_Fixtures_Screen.dart';
 import 'package:football_live_scores/screens/standings_screen.dart';
+import 'package:provider/provider.dart';
+
+import 'provider/Topbar_navigation_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,15 +15,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/',
-      routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => MainScreen(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        '/MyScreen': (context) => StandingsScreen(),
-      },
-      title: 'Flutter Demo',
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => TopBar()),
+      ],
+      child: MaterialApp(
+        initialRoute: '/',
+        routes: {
+          // When navigating to the "/" route, build the FirstScreen widget.
+          '/': (context) => MainScreen(),
+          // When navigating to the "/second" route, build the SecondScreen widget.
+          '/MyScreen': (context) => StandingsScreen(),
+        },
+      ),
     );
   }
 }
@@ -46,6 +53,13 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   @override
+  void initState() {
+    Provider.of<TopBar>(context, listen: false).loadFromPreferences();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[_selectedIndex],
@@ -60,9 +74,9 @@ class _MainScreenState extends State<MainScreen> {
               label: 'Standings',
             ),
             /* BottomNavigationBarItem(
-              icon: Icon(Icons.blur_circular_sharp),
-              label: 'Top Scores',
-            ),*/
+            icon: Icon(Icons.blur_circular_sharp),
+            label: 'Top Scores',
+          ),*/
           ],
           elevation: 3,
           unselectedItemColor: Colors.white54,
@@ -72,15 +86,15 @@ class _MainScreenState extends State<MainScreen> {
           selectedItemColor: Colors.white,
           onTap: _onItemTapped
           /*(index) {
-          switch (index) {
-            case 0:
-              Navigator.pushNamed(context, "/");
-              break;
-            case 1:
-              Navigator.pushNamed(context, "/MyScreen");
-              break;
-          }
-        },*/
+        switch (index) {
+          case 0:
+            Navigator.pushNamed(context, "/");
+            break;
+          case 1:
+            Navigator.pushNamed(context, "/MyScreen");
+            break;
+        }
+      },*/
           // type: BottomNavigationBarType.fixed,
           ),
     );

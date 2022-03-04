@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:football_live_scores/models/Leagues_info.dart';
 import 'package:football_live_scores/models/Matches_Info.dart';
 import 'package:football_live_scores/models/Standings_Info.dart';
 
@@ -64,5 +65,36 @@ class FootballApiManager {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<LeaguesInfo> getLeague() async {
+    var leagues = null;
+    String apiKey =
+        '62c92e6d67892c59a208b694da45c9f787c137119f1fc6046e9f0e61ebf1d6a0';
+    var url = Uri.parse(
+        'https://apiv3.apifootball.com/?action=get_leagues&APIkey=$apiKey');
+    var client = http.Client();
+    try {
+      var response = await client.get(url);
+
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+
+        var js = '{"leagues":$jsonString}';
+
+        var jsonMap = json.decode(js);
+
+        print(jsonMap);
+
+        var leagues = LeaguesInfo.fromJson(jsonMap);
+
+        print(leagues);
+
+        return leagues;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return leagues;
   }
 }
