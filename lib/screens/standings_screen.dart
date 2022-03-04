@@ -3,6 +3,7 @@ import 'package:football_live_scores/models/Standings_Info.dart';
 import 'package:football_live_scores/services/football_Api_Manager.dart';
 import 'package:football_live_scores/widgets/Standing_Card.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../provider/Topbar_navigation_provider.dart';
 
@@ -73,7 +74,7 @@ class _StandingsScreenState extends State<StandingsScreen> {
                         },
                       );
                     }
-                    return const Center(child: CircularProgressIndicator());
+                    return Center(child: shimmerEffectUIWidget());
                   },
                 ),
               ),
@@ -81,4 +82,16 @@ class _StandingsScreenState extends State<StandingsScreen> {
           )),
     );
   }
+
+  Widget shimmerEffectUIWidget() => Shimmer.fromColors(
+      child: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return Card(
+            child: Padding(padding: EdgeInsets.all(30)),
+          );
+        },
+      ),
+      baseColor: Color.fromARGB(255, 233, 233, 233),
+      highlightColor: Colors.white);
 }

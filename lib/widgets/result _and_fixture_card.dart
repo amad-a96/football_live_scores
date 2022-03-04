@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:football_live_scores/models/Matches_Info.dart';
 import 'package:football_live_scores/screens/Lineup_Statistics_screen.dart';
 import 'package:intl/intl.dart';
-import 'package:transparent_image/transparent_image.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ResultandFixtureCard extends StatefulWidget {

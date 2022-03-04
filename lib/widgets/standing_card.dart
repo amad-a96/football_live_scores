@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:football_live_scores/models/Standings_Info.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class StandingCard extends StatefulWidget {
   StandingCard({Key? key, this.standingsInfo, this.index}) : super(key: key);

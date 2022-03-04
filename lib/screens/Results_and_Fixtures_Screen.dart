@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:isoweek/isoweek.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../provider/Topbar_navigation_provider.dart';
 import '../widgets/league_card.dart';
@@ -158,7 +159,7 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
                         ),
                       );
                     } else
-                      return Center(child: CircularProgressIndicator());
+                      return Center(child: shimmerEffectUIWidget());
                   },
                 ),
               ),
@@ -166,6 +167,21 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
           )),
     );
   }
+
+  Widget shimmerEffectUIWidget() => Shimmer.fromColors(
+      child: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              child: Padding(padding: EdgeInsets.all(45)),
+            ),
+          );
+        },
+      ),
+      baseColor: Color.fromARGB(255, 233, 233, 233),
+      highlightColor: Colors.white);
 }
 
 class LeagueSearchDelegate extends SearchDelegate {
@@ -247,9 +263,21 @@ class LeagueSearchDelegate extends SearchDelegate {
                 );
               });
         } else {
-          return CircularProgressIndicator();
+          return shimmerEffectUIWidget();
         }
       },
     );
   }
+
+  Widget shimmerEffectUIWidget() => Shimmer.fromColors(
+      child: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return Card(
+            child: Padding(padding: EdgeInsets.all(30)),
+          );
+        },
+      ),
+      baseColor: Color.fromARGB(255, 233, 233, 233),
+      highlightColor: Colors.white);
 }
