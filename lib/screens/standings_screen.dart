@@ -42,6 +42,7 @@ class _StandingsScreenState extends State<StandingsScreen> {
               Container(
                 color: Color.fromARGB(255, 39, 36, 63),
                 height: 80,
+                  width: double.infinity,
                 child: TabBar(
                     isScrollable: true,
                     indicatorWeight: 3,

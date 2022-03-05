@@ -23,3 +23,6 @@ A few resources to get you started if this is your first Flutter project:
 - intl: ^0.17.0                  --->        (date formating)
 - http: ^0.13.4                  --->        (to request data from API )
 
+## Screen
+
+https://user-images.githubusercontent.com/60450639/156893078-cc1ae212-b659-4f7e-967f-6e52fba5a34d.mp4
