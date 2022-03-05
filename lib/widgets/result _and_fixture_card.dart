@@ -40,7 +40,14 @@ class _ResultandFixtureCardState extends State<ResultandFixtureCard> {
               ? Padding(
                   padding: const EdgeInsets.only(top: 28.0, bottom: 5),
                   child: Text(
-                    DateFormat.MMMMEEEEd().format(league.matchDate!),
+                    league.matchDate!.isToday
+                        ? 'Today'
+                        : league.matchDate!.isTomorrow
+                            ? 'Tomorrow'
+                            : league.matchDate!.isYesterday
+                                ? 'Yesterday'
+                                : DateFormat.MMMMEEEEd()
+                                    .format(league.matchDate!),
                     style: const TextStyle(
                         color: Color.fromARGB(143, 72, 66, 117),
                         fontSize: 18,
@@ -187,5 +194,26 @@ class _ResultandFixtureCardState extends State<ResultandFixtureCard> {
         ],
       ),
     );
+  }
+}
+
+extension DateUtils on DateTime {
+  bool get isToday {
+    final now = DateTime.now();
+    return now.day == day && now.month == month && now.year == year;
+  }
+
+  bool get isTomorrow {
+    final tomorrow = DateTime.now().add(const Duration(days: 1));
+    return tomorrow.day == day &&
+        tomorrow.month == month &&
+        tomorrow.year == year;
+  }
+
+  bool get isYesterday {
+    final yesterday = DateTime.now().subtract(const Duration(days: 1));
+    return yesterday.day == day &&
+        yesterday.month == month &&
+        yesterday.year == year;
   }
 }

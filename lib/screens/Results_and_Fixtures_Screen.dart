@@ -139,8 +139,23 @@ class _ResultsandFixturesScreenState extends State<ResultsandFixturesScreen> {
                                         padding:
                                             const EdgeInsets.only(top: 28.0),
                                         child: Text(
-                                          DateFormat.MMMMEEEEd().format(snapshot
-                                              .data!.matches![0].matchDate!),
+                                          snapshot.data!.matches![0].matchDate!
+                                                  .isToday
+                                              ? 'Today'
+                                              : snapshot.data!.matches![0]
+                                                      .matchDate!.isTomorrow
+                                                  ? 'Tomorrow'
+                                                  : snapshot
+                                                          .data!
+                                                          .matches![0]
+                                                          .matchDate!
+                                                          .isYesterday
+                                                      ? 'Yesterday'
+                                                      : DateFormat.MMMMEEEEd()
+                                                          .format(snapshot
+                                                              .data!
+                                                              .matches![0]
+                                                              .matchDate!),
                                           style: const TextStyle(
                                               color: Color.fromARGB(
                                                   143, 72, 66, 117),
